@@ -1,0 +1,19 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "Gestion de mes tâches",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiben22/Todo.git"
+  },
+  "author": "Benjamin LE GALLO",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jiben22/Todo/issues"
+  },
+  "homepage": "https://github.com/jiben22/Todo#readme"
+}

@@ -6,12 +6,20 @@ var hash = Object.freeze('todo');
 
 class TodoService {
 
+    // GET todos
+    findAll(callback) {     
+        client.hgetall(hash, function(err, todos) {
+            if (err) throw err;
+            // TODO : parse each row
+            callback(todos);
+        });
+    }
+
     // GET a specific todo
     findById(id, callback) {
         if (this.exists(id)) {
             client.hget(hash, id, function (err, todo) {
                 if (err) throw err;
-                console.log("TRY -> " + todo);
                 callback(JSON.parse(todo));
             });
         } else {
@@ -20,13 +28,14 @@ class TodoService {
     }
 
     // CREATE a todo
-    add(title, description, callback) {
-        const todo = {
-            title: title,
-            description: description,
-        };
-
+    add(todo, callback) {
         client.hset(hash, client.length+1, JSON.stringify(todo));
+        callback(todo);
+    }
+
+    // UPDATE a specific todo
+    update(id, todo, callback) {
+        client.hset(hash, id, JSON.stringify(todo));
         callback(todo);
     }
 

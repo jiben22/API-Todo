@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 const statut = Object.freeze({
     NON_SPECIFIED: "Non précisé",
     REQUIRED: "Une tâche est requise",

@@ -1,65 +1,87 @@
 /* jshint esversion: 6 */
 /* eslint-disable class-methods-use-this */
 
-import db from '../db/db';
+import todoService from '../db/todoService';
+import tagService from '../db/tagService';
+import client from '../db/client';
 
 class TodoController {
 
   // GET the list of todos
   getTodoList(req, res) {
+    console.log('GET Todo list');
+
     return res.status(200).send({
       success: 'true',
       message: 'todos retrieved successfully',
-      todos: db,
+      todos: {
+        title: "TP1",
+        dateBegin: "25/03/2020",
+        dateEnd: "26/03/2020",
+        statut: "ok",
+        tags: ["travail", "web"]
+      }
     });
   }
 
   // GET a specific todo
   getTodo(req, res) {
+    console.log('GET todo');
     const id = parseInt(req.params.id, 10);
-    db.map((todo) => {
-      if (todo.id === id) {
+
+    todoService.findById(id, function (todo) {
+      if (todo != null) {
         return res.status(200).send({
           success: 'true',
           message: 'todo retrieved successfully',
-          todo,
+          todo: todo
+        });
+      } else {
+        return res.status(404).send({
+          success: 'false',
+          message: 'todo does not exist',
         });
       }
-    });
-    return res.status(404).send({
-      success: 'false',
-      message: 'todo does not exist',
     });
   }
 
   // CREATE a todo
   createTodo(req, res) {
-    if (!req.body.title) {
+    console.log('CREATE todo');
+    let title = req.body.title;
+    let description = req.body.description;
+
+    if (!title) {
       return res.status(400).send({
         success: 'false',
         message: 'title is required',
       });
-    } else if (!req.body.description) {
+    } else if (!description) {
       return res.status(400).send({
         success: 'false',
         message: 'description is required',
       });
     }
-    const todo = {
-      id: db.length + 1,
-      title: req.body.title,
-      description: req.body.description,
-    };
-    db.push(todo);
-    return res.status(201).send({
-      success: 'true',
-      message: 'todo added successfully',
-      todo,
+
+    todoService.add(title, description, function (todo) {
+      if (todo != null) {
+        return res.status(200).send({
+          success: 'true',
+          message: 'todo added successfully',
+          todo: todo
+        });
+      } else {
+        return res.status(404).send({
+          success: 'false',
+          message: 'todo has not been added',
+        });
+      }
     });
   }
 
   // UPDATE a specific todo
   updateTodo(req, res) {
+    console.log('UPDATE todo');
     const id = parseInt(req.params.id, 10);
     let todoFound;
     let itemIndex;
@@ -106,27 +128,21 @@ class TodoController {
 
   // DELETE a specific todo
   deleteTodo(req, res) {
+    console.log('DELETE todo');
     const id = parseInt(req.params.id, 10);
-    let todoFound;
-    let itemIndex;
-    db.map((todo, index) => {
-      if (todo.id === id) {
-        todoFound = todo;
-        itemIndex = index;
+    
+    todoService.delete(id, function (isDeleted) {
+      if (isDeleted === 1) {
+        return res.status(200).send({
+          success: 'true',
+          message: 'Todo deleted successfuly',
+        });
+      } else {
+        return res.status(404).send({
+          success: 'false',
+          message: 'todo not found',
+        });
       }
-    });
-
-    if (!todoFound) {
-      return res.status(404).send({
-        success: 'false',
-        message: 'todo not found',
-      });
-    }
-    db.splice(itemIndex, 1);
-
-    return res.status(200).send({
-      success: 'true',
-      message: 'Todo deleted successfuly',
     });
   }
 }

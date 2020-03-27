@@ -2,16 +2,16 @@
 /* eslint-disable class-methods-use-this */
 
 import Todo from '../model/todo';
-import todoService from '../db/todoService';
+import TodoService from '../db/todoService';
 
 class TodoController {
 
   // GET the list of todos
-  getTodoList(req, res) {
-    console.log('GET Todo list');
+  getTodos(req, res) {
+    console.log('GET Todos');
 
     // Find all todos
-    todoService.findAll(function (todos) {
+    TodoService.findAll(function (todos) {
       return res.status(200).send({
         success: 'true',
         message: 'Toutes les tâches ont été récupérées',
@@ -26,7 +26,7 @@ class TodoController {
     const id = parseInt(req.params.id, 10);
 
     // Find todo by id
-    todoService.findById(id, function (todo) {
+    TodoService.findById(id, function (todo) {
       if (todo != null) {
         return res.status(200).send({
           success: 'true',
@@ -84,7 +84,7 @@ class TodoController {
     const todo = new Todo(title, dateBegin, dateEnd, statut, tags);
 
     // Add todo
-    todoService.add(todo, function (todo) {
+    TodoService.add(todo, function (todo) {
       if (todo != null) {
         return res.status(200).send({
           success: 'true',
@@ -106,7 +106,7 @@ class TodoController {
     const id = parseInt(req.params.id, 10);
 
     // Find todo by id
-    todoService.findById(id, function (todo) {
+    TodoService.findById(id, function (todo) {
       if (todo == null) {
         return res.status(200).send({
           success: 'false',
@@ -145,7 +145,7 @@ class TodoController {
       todo.tags = tags;
 
       // Update todo
-      todoService.update(id, todo, function (todo) {
+      TodoService.update(id, todo, function (todo) {
         return res.status(201).send({
           success: 'true',
           message: 'La tâche a été mise à jour',
@@ -161,7 +161,7 @@ class TodoController {
     const id = parseInt(req.params.id, 10);
 
     // Delete todo
-    todoService.delete(id, function (isDeleted) {
+    TodoService.delete(id, function (isDeleted) {
       if (isDeleted === 1) {
         return res.status(200).send({
           success: 'true',

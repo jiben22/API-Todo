@@ -12,8 +12,10 @@ class TodoService {
 
         client.hgetall(hash, function(err, todos) {
             if (err) throw err;
-            for (var key of Object.keys(todos)) {
-                todoList.push(JSON.parse(todos[key]));
+            if (todos != null) {
+                for (var key of Object.keys(todos)) {
+                    todoList.push(JSON.parse(todos[key]));
+                }
             }
             callback(todoList);
         });

@@ -258,7 +258,7 @@
     "definitions": {
         "Todo": {
             "required": [
-                "id",
+                "_id",
                 "title",
                 "dateBegin",
                 "dateEnd",
@@ -292,7 +292,7 @@
         },
         "Tag": {
             "required": [
-                "id",
+                "_id",
                 "title"
             ],
             "properties": {

@@ -258,6 +258,7 @@
     "definitions": {
         "Todo": {
             "required": [
+                "id",
                 "title",
                 "dateBegin",
                 "dateEnd",
@@ -265,6 +266,10 @@
                 "tags"
             ],
             "properties": {
+                "id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
                 "title": {
                     "type": "string"
                 },
@@ -287,9 +292,14 @@
         },
         "Tag": {
             "required": [
+                "id",
                 "title"
             ],
             "properties": {
+                "id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
                 "title": {
                     "type": "string"
                 }

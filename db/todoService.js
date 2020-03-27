@@ -29,7 +29,7 @@ class TodoService {
 
     // CREATE a todo
     add(todo, callback) {
-        client.hset(hash, client.length+1, JSON.stringify(todo));
+        client.hset(hash, todo.id, JSON.stringify(todo));
         callback(todo);
     }
 

@@ -1,0 +1,282 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Gestionnaire de tâches Premium",
+        "description": "API - Créer et gérer vos tâches simplement",
+        "license": {
+            "name": "ISC",
+            "url": "https://opensource.org/licenses/ISC"
+        }
+    },
+    "host": "localhost:5000",
+    "basePath": "/api/v1",
+    "tags": [{
+        "name": "Todos",
+        "description": "API pour les tâches"
+    }],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/todos": {
+            "get": {
+                "tags": [
+                    "Todos"
+                ],
+                "summary": "Récupérer toutes les tâches",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Todos"
+                        }
+                    }
+                }
+            }
+        },
+        "/todo": {
+            "post": {
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "Création d'une nouvelle tâche",
+                "parameters": [{
+                    "name": "todo",
+                    "in": "body",
+                    "description": "La tâche que vous voulez créer",
+                    "schema": {
+                        "$ref": "#/definitions/Todo"
+                    }
+                }],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Nouvelle tâche créée",
+                        "schema": {
+                            "$ref": "#/definitions/Todo"
+                        }
+                    }
+                }
+            }
+        },
+        "/todo/{id}": {
+            "parameters": [{
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "description": "L'ID de la tâche que vous voulez récupérer",
+                "type": "string"
+            }],
+            "get": {
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "Récupérer la tâche en renseignant son ID",
+                "responses": {
+                    "200": {
+                        "description": "La tâche est trouvée",
+                        "schema": {
+                            "$ref": "#/definitions/Todo"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Suppression de la tâche en renseignant son ID",
+                "tags": [
+                    "Todo"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "La tâche est supprimée",
+                        "schema": {
+                            "$ref": "#/definitions/Todo"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Mise à jour de la tâche en renseignant son ID",
+                "tags": [
+                    "Todo"
+                ],
+                "parameters": [{
+                    "name": "todo",
+                    "in": "body",
+                    "description": "La tâche est mise à jour avec ses nouvelles valeurs",
+                    "schema": {
+                        "$ref": "#/definitions/Todo"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "La tâche est mise à jour",
+                        "schema": {
+                            "$ref": "#/definitions/Todo"
+                        }
+                    }
+                }
+            }
+        },
+        "/tags": {
+            "get": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Récupérer touts les tags",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Tags"
+                        }
+                    }
+                }
+            }
+        },
+        "/tag": {
+            "post": {
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "Création d'un nouveau tag",
+                "parameters": [{
+                    "name": "tag",
+                    "in": "body",
+                    "description": "Le tag que vous voulez créer",
+                    "schema": {
+                        "$ref": "#/definitions/Tag"
+                    }
+                }],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Nouveau tag crée",
+                        "schema": {
+                            "$ref": "#/definitions/Tag"
+                        }
+                    }
+                }
+            }
+        },
+        "/tag/{id}": {
+            "parameters": [{
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "description": "L'ID du tag que vous voulez récupérer",
+                "type": "string"
+            }],
+            "get": {
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "Récupérer le tag en renseignant son ID",
+                "responses": {
+                    "200": {
+                        "description": "Le tag est trouvé",
+                        "schema": {
+                            "$ref": "#/definitions/Tag"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Suppression du tag en renseignant son ID",
+                "tags": [
+                    "Tag"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Le tag est supprimé",
+                        "schema": {
+                            "$ref": "#/definitions/Tag"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Mise à jour du tag en renseignant son ID",
+                "tags": [
+                    "Tag"
+                ],
+                "parameters": [{
+                    "name": "tag",
+                    "in": "body",
+                    "description": "Le tag est mis à jour avec ses nouvelles valeurs",
+                    "schema": {
+                        "$ref": "#/definitions/Tag"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Le tag est mise à jour",
+                        "schema": {
+                            "$ref": "#/definitions/Tag"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Todo": {
+            "required": [
+                "title",
+                "dateBegin",
+                "dateEnd",
+                "statut",
+                "tags"
+            ],
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "dateBegin": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "dateEnd": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "statut": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "$ref": "#/definitions/Tag"
+                }
+            }
+        },
+        "Tag": {
+            "required": [
+                "title"
+            ],
+            "properties": {
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "Todos": {
+            "type": "array",
+            "$ref": "#/definitions/Todo"
+        },
+        "Tags": {
+            "type": "array",
+            "$ref": "#/definitions/Tag"
+        }
+    }
+}

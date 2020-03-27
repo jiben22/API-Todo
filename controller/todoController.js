@@ -1,7 +1,6 @@
 /* jshint esversion: 6 */
 /* eslint-disable class-methods-use-this */
 
-import tagService from '../db/tagService';
 import Todo from '../model/todo';
 import todoService from '../db/todoService';
 
@@ -15,7 +14,7 @@ class TodoController {
     todoService.findAll(function (todos) {
       return res.status(200).send({
         success: 'true',
-        message: 'todos retrieved successfully',
+        message: 'Toutes les tâches ont été récupérées',
         todos: todos
       });
     });
@@ -31,13 +30,13 @@ class TodoController {
       if (todo != null) {
         return res.status(200).send({
           success: 'true',
-          message: 'todo retrieved successfully',
+          message: 'La tâche a été trouvée',
           todo: todo
         });
       } else {
         return res.status(404).send({
           success: 'false',
-          message: 'todo does not exist',
+          message: 'La tâche n\'existe pas',
         });
       }
     });
@@ -57,27 +56,27 @@ class TodoController {
     if (!title) {
       return res.status(400).send({
         success: 'false',
-        message: 'title is required',
+        message: 'Le titre est requis',
       });
     } else if (!dateBegin) {
       return res.status(400).send({
         success: 'false',
-        message: 'date begin is required',
+        message: 'La date de début est requise',
       });
     } else if (!dateEnd) {
       return res.status(400).send({
         success: 'false',
-        message: 'date end is required',
+        message: 'La date de fin est requise',
       });
     } else if (!statut) {
       return res.status(400).send({
         success: 'false',
-        message: 'statut is required',
+        message: 'Le statut est requis',
       });
     } else if (!tags) {
       return res.status(400).send({
         success: 'false',
-        message: 'tags is required',
+        message: 'Les tags sont requis',
       });
     }
 
@@ -89,13 +88,13 @@ class TodoController {
       if (todo != null) {
         return res.status(200).send({
           success: 'true',
-          message: 'todo added successfully',
+          message: 'Nouvelle tâche créée',
           todo: todo
         });
       } else {
         return res.status(404).send({
           success: 'false',
-          message: 'todo has not been added',
+          message: 'Nouvelle tâche non ajoutée',
         });
       }
     });
@@ -111,7 +110,7 @@ class TodoController {
       if (todo == null) {
         return res.status(200).send({
           success: 'false',
-          message: 'todo does not exist'
+          message: 'La tâche n\'existe pas'
         });
       }
 
@@ -149,7 +148,7 @@ class TodoController {
       todoService.update(id, todo, function (todo) {
         return res.status(201).send({
           success: 'true',
-          message: 'todo updated successfully',
+          message: 'La tâche a été mise à jour',
           todo: todo,
         });
       });
@@ -166,12 +165,12 @@ class TodoController {
       if (isDeleted === 1) {
         return res.status(200).send({
           success: 'true',
-          message: 'Todo deleted successfuly',
+          message: 'La tâche a été supprimée',
         });
       } else {
         return res.status(404).send({
           success: 'false',
-          message: 'todo not found',
+          message: 'La tâche n\'existe pas',
         });
       }
     });

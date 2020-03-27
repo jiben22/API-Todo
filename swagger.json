@@ -33,7 +33,8 @@
                 "summary": "Récupérer toutes les tâches",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "success": "true",
+                        "description": "Toutes les tâches ont été récupérées",
                         "schema": {
                             "$ref": "#/definitions/Todos"
                         }
@@ -60,10 +61,19 @@
                 ],
                 "responses": {
                     "200": {
+                        "success": "true",
                         "description": "Nouvelle tâche créée",
                         "schema": {
                             "$ref": "#/definitions/Todo"
                         }
+                    },
+                    "400": {
+                        "success": "false",
+                        "description": "Le titre est requis"
+                    },
+                    "404": {
+                        "success": "false",
+                        "description": "Nouvelle tâche non ajoutée"
                     }
                 }
             }
@@ -83,10 +93,15 @@
                 "summary": "Récupérer la tâche en renseignant son ID",
                 "responses": {
                     "200": {
-                        "description": "La tâche est trouvée",
+                        "success": "true",
+                        "description": "La tâche a été trouvée",
                         "schema": {
                             "$ref": "#/definitions/Todo"
                         }
+                    },
+                    "404": {
+                        "success": "false",
+                        "description": "La tâche n'existe pas"
                     }
                 }
             },
@@ -97,10 +112,15 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "La tâche est supprimée",
+                        "success": "true",
+                        "description": "La tâche a été supprimée",
                         "schema": {
                             "$ref": "#/definitions/Todo"
                         }
+                    },
+                    "404": {
+                        "success": "false",
+                        "description": "La tâche n'existe pas"
                     }
                 }
             },
@@ -119,10 +139,15 @@
                 }],
                 "responses": {
                     "200": {
-                        "description": "La tâche est mise à jour",
+                        "success": "true",
+                        "description": "La tâche a été mise à jour",
                         "schema": {
                             "$ref": "#/definitions/Todo"
                         }
+                    },
+                    "404": {
+                        "success": "false",
+                        "description": "La tâche n'existe pas"
                     }
                 }
             }

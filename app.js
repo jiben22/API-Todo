@@ -8,10 +8,17 @@ import swaggerDocument from './swagger.json';
 
 // Set up the express app
 const app = express();
-// Set up Swagger docs
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE');
+  next();
+});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(router);
+
+// Set up Swagger docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const PORT = 5000;

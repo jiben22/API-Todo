@@ -13,11 +13,11 @@
     "basePath": "/api/v1",
     "tags": [{
         "name": "Todos",
-        "description": "API pour les tâches"
+        "description": "Endpoints pour les tâches"
     },
     {
         "name": "Tags",
-        "description": "API pour les catégories"
+        "description": "Endpoints pour les catégories"
     }],
     "schemes": [
         "http"

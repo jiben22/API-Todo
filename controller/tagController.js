@@ -56,6 +56,9 @@ class TagController {
       });
     }
 
+    console.log("PAS OK");
+    title = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
+    console.log("OK");
     // Create a new Tag
     const tag = new Tag(title);
 
@@ -68,9 +71,9 @@ class TagController {
           tag: tag
         });
       } else {
-        return res.status(404).send({
+        return res.status(400).send({
           success: 'false',
-          message: 'Nouveau tag non ajouté',
+          message: 'Un tag avec le même titre existe déjà',
         });
       }
     });
@@ -97,7 +100,7 @@ class TagController {
         title = tag.title;
       }
 
-      // Update Tag
+      // Update Tag attributes
       tag.title = title;
 
       // Update tag

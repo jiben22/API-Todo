@@ -35,8 +35,14 @@ class TagService {
 
     // CREATE a tag
     add(tag, callback) {
-        client.hset(hash, tag.id, JSON.stringify(tag));
-        callback(tag);
+        this.findAll(function (tags) {
+            if (!tags.some(t => t.title.includes(tag.title))) {
+                client.hset(hash, tag.id, JSON.stringify(tag));
+                callback(tag);
+            } else {
+                callback(null);
+            }
+        });
     }
 
     // UPDATE a specific tag

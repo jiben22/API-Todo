@@ -3,6 +3,7 @@
 
 import Todo from '../model/todo';
 import TodoService from '../db/todoService';
+import TodoUtils from '../utils/TodoUtils';
 
 class TodoController {
 
@@ -10,8 +11,28 @@ class TodoController {
   getTodos(req, res) {
     console.log('GET Todos');
 
+    // Get params
+    let params = [];
+    params.max_dateEnd = req.query.max_dateEnd;
+    params.no_status = req.query.no_status;
+    params.status = req.query.status;
+    params.tags = req.query.tags;
+
+    // Convert params
+    params = TodoUtils.convertParams(params);
+
+    var message = TodoUtils.validateQueryParams(params);
+    if (message !== null) {
+      return res.status(400).send({
+        success: 'false',
+        message: message,
+      });
+    }
+
     // Find all todos
     TodoService.findAll(function (todos) {
+      todos = TodoUtils.filterTodos(todos, params);
+
       return res.status(200).send({
         success: 'true',
         message: 'Toutes les tâches ont été récupérées',
@@ -49,7 +70,7 @@ class TodoController {
     let title = req.body.title;
     let dateBegin = req.body.dateBegin;
     let dateEnd = req.body.dateEnd;
-    let statut = req.body.statut;
+    let status = req.body.status;
     let tags = req.body.tags;
 
     // Checks if each param is given
@@ -68,7 +89,7 @@ class TodoController {
         success: 'false',
         message: 'La date de fin est requise',
       });
-    } else if (!statut) {
+    } else if (!status) {
       return res.status(400).send({
         success: 'false',
         message: 'Le statut est requis',
@@ -81,7 +102,7 @@ class TodoController {
     }
 
     // Create a new Todo
-    const todo = new Todo(title, dateBegin, dateEnd, statut, tags);
+    const todo = new Todo(title, dateBegin, dateEnd, status, tags);
 
     // Add todo
     TodoService.add(todo, function (todo) {
@@ -117,7 +138,7 @@ class TodoController {
       let title = req.body.title;
       let dateBegin = req.body.dateBegin;
       let dateEnd = req.body.dateEnd;
-      let statut = req.body.statut;
+      let status = req.body.status;
       let tags = req.body.tags;
 
       // Get new or old values
@@ -130,8 +151,8 @@ class TodoController {
       if (req.body.dateEnd === undefined) {
         dateEnd = todo.dateEnd;
       }
-      if (req.body.statut === undefined) {
-        statut = todo.statut;
+      if (req.body.status === undefined) {
+        status = todo.status;
       }
       if (req.body.tags === undefined) {
         tags = todo.tags;
@@ -141,7 +162,7 @@ class TodoController {
       todo.title = title;
       todo.dateBegin = dateBegin;
       todo.dateEnd = dateEnd;
-      todo.statut = statut;
+      todo.status = status;
       todo.tags = tags;
 
       // Update todo

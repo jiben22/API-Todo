@@ -7,17 +7,17 @@ var hash = Object.freeze('todo');
 class TodoService {
 
     // GET todos
-    findAll(callback) {    
+    findAll(callback) {
         let todoList = [];
 
-        client.hgetall(hash, function(err, todos) {
+        client.hgetall(hash, function (err, todos) {
             if (err) throw err;
             if (todos != null) {
                 for (var key of Object.keys(todos)) {
                     todoList.push(JSON.parse(todos[key]));
                 }
+                callback(todoList);
             }
-            callback(todoList);
         });
     }
 

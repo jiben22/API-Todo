@@ -1,8 +1,8 @@
 /* jshint esversion: 6 */
 
 class Todo {
-
-    constructor(title, dateBegin, dateEnd, statut, tags) {
+    
+    constructor(title, dateBegin, dateEnd, status, tags) {
         // ID unique de la tâche
         this._id = id++;
         // Titre de la tâche
@@ -12,7 +12,7 @@ class Todo {
         // Date d’échéance de la tâche
         this.dateEnd = dateEnd;
         // Degré d’avancement 
-        this.statut = statut;
+        this.status = status;
         // Liste de catégories
         this.tags = tags;
     }

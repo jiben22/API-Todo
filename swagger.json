@@ -14,6 +14,10 @@
     "tags": [{
         "name": "Todos",
         "description": "API pour les tâches"
+    },
+    {
+        "name": "Tags",
+        "description": "API pour les catégories"
     }],
     "schemes": [
         "http"
@@ -26,6 +30,46 @@
     ],
     "paths": {
         "/todos": {
+            "parameters": [
+                {
+                    "name": "max_dateEnd",
+                    "in": "query",
+                    "required": false,
+                    "description": "Date de fin maximum",
+                    "type": "timestamp"
+                },
+                {
+                    "name": "no_status",
+                    "in": "query",
+                    "required": false,
+                    "description": "La tâche ne possède pas un de ces statuts.\nPlusieurs statuts peuvent être renseignés avec une virgule comme séparateur",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": ["not_specified", "required", "in_progress", "completed", "cancelled"]
+                    },
+                    "collectionFormat": "multi"
+                },
+                {
+                    "name": "status",
+                    "in": "query",
+                    "required": false,
+                    "description": "La tâche possède un de ces statuts.\nPlusieurs statuts peuvent être renseignés avec une virgule comme séparateur",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": ["not_specified", "required", "in_progress", "completed", "cancelled"]
+                    },
+                    "collectionFormat": "multi"
+                },
+                {
+                    "name": "tags",
+                    "in": "query",
+                    "required": false,
+                    "description": "La tâche possède un de ces tags.\nPlusieurs tags peuvent être renseignés avec une virgule comme séparateur",
+                    "type": "array[string]"
+                }
+            ],
             "get": {
                 "tags": [
                     "Todos"
@@ -33,19 +77,19 @@
                 "summary": "Récupérer toutes les tâches",
                 "responses": {
                     "200": {
-                        "success": "true",
                         "description": "Toutes les tâches ont été récupérées",
                         "schema": {
-                            "$ref": "#/definitions/Todos"
+                            "$ref": "#/definitions/Todo"
                         }
+                    },
+                    "400": {
+                        "description": "Un des paramètres n'est pas valide"
                     }
                 }
-            }
-        },
-        "/todo": {
+            },
             "post": {
                 "tags": [
-                    "Todo"
+                    "Todos"
                 ],
                 "summary": "Création d'une nouvelle tâche",
                 "parameters": [{
@@ -61,24 +105,21 @@
                 ],
                 "responses": {
                     "200": {
-                        "success": "true",
                         "description": "Nouvelle tâche créée",
                         "schema": {
                             "$ref": "#/definitions/Todo"
                         }
                     },
                     "400": {
-                        "success": "false",
-                        "description": "Le titre est requis"
+                        "description": "Un des paramètres requis n'a pas été renseigné"
                     },
                     "404": {
-                        "success": "false",
                         "description": "Nouvelle tâche non ajoutée"
                     }
                 }
             }
         },
-        "/todo/{id}": {
+        "/todos/{id}": {
             "parameters": [{
                 "name": "id",
                 "in": "path",
@@ -88,38 +129,17 @@
             }],
             "get": {
                 "tags": [
-                    "Todo"
+                    "Todos"
                 ],
                 "summary": "Récupérer la tâche en renseignant son ID",
                 "responses": {
                     "200": {
-                        "success": "true",
                         "description": "La tâche a été trouvée",
                         "schema": {
                             "$ref": "#/definitions/Todo"
                         }
                     },
                     "404": {
-                        "success": "false",
-                        "description": "La tâche n'existe pas"
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Suppression de la tâche en renseignant son ID",
-                "tags": [
-                    "Todo"
-                ],
-                "responses": {
-                    "200": {
-                        "success": "true",
-                        "description": "La tâche a été supprimée",
-                        "schema": {
-                            "$ref": "#/definitions/Todo"
-                        }
-                    },
-                    "404": {
-                        "success": "false",
                         "description": "La tâche n'existe pas"
                     }
                 }
@@ -127,7 +147,7 @@
             "put": {
                 "summary": "Mise à jour de la tâche en renseignant son ID",
                 "tags": [
-                    "Todo"
+                    "Todos"
                 ],
                 "parameters": [{
                     "name": "todo",
@@ -139,14 +159,29 @@
                 }],
                 "responses": {
                     "200": {
-                        "success": "true",
                         "description": "La tâche a été mise à jour",
                         "schema": {
                             "$ref": "#/definitions/Todo"
                         }
                     },
                     "404": {
-                        "success": "false",
+                        "description": "La tâche n'existe pas"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Suppression de la tâche en renseignant son ID",
+                "tags": [
+                    "Todos"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "La tâche a été supprimée",
+                        "schema": {
+                            "$ref": "#/definitions/Todo"
+                        }
+                    },
+                    "404": {
                         "description": "La tâche n'existe pas"
                     }
                 }
@@ -166,12 +201,10 @@
                         }
                     }
                 }
-            }
-        },
-        "/tag": {
+            },
             "post": {
                 "tags": [
-                    "Tag"
+                    "Tags"
                 ],
                 "summary": "Création d'un nouveau tag",
                 "parameters": [{
@@ -195,7 +228,7 @@
                 }
             }
         },
-        "/tag/{id}": {
+        "/tags/{id}": {
             "parameters": [{
                 "name": "id",
                 "in": "path",
@@ -205,7 +238,7 @@
             }],
             "get": {
                 "tags": [
-                    "Tag"
+                    "Tags"
                 ],
                 "summary": "Récupérer le tag en renseignant son ID",
                 "responses": {
@@ -217,24 +250,10 @@
                     }
                 }
             },
-            "delete": {
-                "summary": "Suppression du tag en renseignant son ID",
-                "tags": [
-                    "Tag"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Le tag est supprimé",
-                        "schema": {
-                            "$ref": "#/definitions/Tag"
-                        }
-                    }
-                }
-            },
             "put": {
                 "summary": "Mise à jour du tag en renseignant son ID",
                 "tags": [
-                    "Tag"
+                    "Tags"
                 ],
                 "parameters": [{
                     "name": "tag",
@@ -252,6 +271,20 @@
                         }
                     }
                 }
+            },
+            "delete": {
+                "summary": "Suppression du tag en renseignant son ID",
+                "tags": [
+                    "Tags"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Le tag est supprimé",
+                        "schema": {
+                            "$ref": "#/definitions/Tag"
+                        }
+                    }
+                }
             }
         }
     },
@@ -262,11 +295,11 @@
                 "title",
                 "dateBegin",
                 "dateEnd",
-                "statut",
+                "status",
                 "tags"
             ],
             "properties": {
-                "id": {
+                "_id": {
                     "type": "string",
                     "uniqueItems": true
                 },
@@ -275,13 +308,13 @@
                 },
                 "dateBegin": {
                     "type": "string",
-                    "format": "date"
+                    "format": "dd/mm/yyyy"
                 },
                 "dateEnd": {
                     "type": "string",
-                    "format": "date"
+                    "format": "dd/mm/yyyy"
                 },
-                "statut": {
+                "status": {
                     "type": "string"
                 },
                 "tags": {
@@ -296,7 +329,7 @@
                 "title"
             ],
             "properties": {
-                "id": {
+                "_id": {
                     "type": "string",
                     "uniqueItems": true
                 },
@@ -304,14 +337,6 @@
                     "type": "string"
                 }
             }
-        },
-        "Todos": {
-            "type": "array",
-            "$ref": "#/definitions/Todo"
-        },
-        "Tags": {
-            "type": "array",
-            "$ref": "#/definitions/Tag"
         }
     }
 }

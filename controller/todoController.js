@@ -3,7 +3,7 @@
 
 import Todo from '../model/todo';
 import TodoService from '../db/todoService';
-import TodoUtils from '../utils/TodoUtils';
+import TodoUtils from './utils/todoUtils';
 
 class TodoController {
 

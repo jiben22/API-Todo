@@ -31,3 +31,7 @@ Go to http://localhost:5000/api-docs
 `npm run start`
 
 Go to http://localhost:5000/api/v1/
+
+## Demo
+
+https://api-tasks-manager2.herokuapp.com/api-docs

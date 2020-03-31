@@ -113,7 +113,7 @@ class TodoController {
           todo: todo
         });
       } else {
-        return res.status(404).send({
+        return res.status(500).send({
           success: 'false',
           message: 'Nouvelle tâche non ajoutée',
         });

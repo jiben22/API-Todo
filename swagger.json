@@ -30,7 +30,8 @@
     ],
     "paths": {
         "/todos": {
-            "parameters": [
+            "get": {
+                "parameters": [
                 {
                     "name": "max_dateEnd",
                     "in": "query",
@@ -70,7 +71,6 @@
                     "type": "array[string]"
                 }
             ],
-            "get": {
                 "tags": [
                     "Todos"
                 ],
@@ -78,8 +78,8 @@
                 "responses": {
                     "200": {
                         "description": "Toutes les tâches ont été récupérées",
-                        "schema": {
-                            "$ref": "#/definitions/Todo"
+                        "examples": {
+                            "application/json": "{\n  \"success\": \"true\",\n  \"message\": \"Toutes les tâches ont été récupérées\",\n  \"todos\": [\n    {\n      \"_id\": 0,\n      \"title\": \"TP1\",\n      \"dateBegin\": \"25/03/2020\",\n      \"dateEnd\": \"26/03/2020\",\n      \"status\": \"Achevé\",\n      \"tags\": [\n        \"Travail\",\n        \"Web\"\n      ]\n    },\n    {\n      \"_id\": 1,\n      \"title\": \"Projet\",\n      \"dateBegin\": \"25/03/2020\",\n      \"dateEnd\": \"03/04/2020\",\n      \"status\": \"En cours\",\n      \"tags\": [\n        \"Travail\",\n        \"Web\",\n        \"Youpi\"\n      ]\n    }\n  ]\n}"
                         }
                     },
                     "400": {
@@ -106,15 +106,15 @@
                 "responses": {
                     "200": {
                         "description": "Nouvelle tâche créée",
-                        "schema": {
-                            "$ref": "#/definitions/Todo"
+                        "examples": {
+                            "application/json": "{\n  \"success\": \"true\",\n  \"message\": \"Nouvelle tâche créée\",\n  \"todo\": {\n    \"_id\": 1,\n    \"title\": \"Projet\",\n    \"dateBegin\": \"25/03/2020\",\n    \"dateEnd\": \"03/04/2020\",\n    \"status\": \"En cours\",\n    \"tags\": [\n      \"Travail\",\n      \"Web\",\n      \"Youpi\"\n    ]\n  }\n}"
                         }
                     },
                     "400": {
                         "description": "Un des paramètres requis n'a pas été renseigné"
                     },
-                    "404": {
-                        "description": "Nouvelle tâche non ajoutée"
+                    "500": {
+                        "description": "Nouvelle tâche non créée"
                     }
                 }
             }
@@ -135,8 +135,8 @@
                 "responses": {
                     "200": {
                         "description": "La tâche a été trouvée",
-                        "schema": {
-                            "$ref": "#/definitions/Todo"
+                        "examples": {
+                            "application/json": "{\n  \"success\": \"true\",\n  \"message\": \"La tâche a été trouvée\",\n  \"todo\": {\n    \"_id\": 1,\n    \"title\": \"Projet\",\n    \"dateBegin\": \"25/03/2020\",\n    \"dateEnd\": \"03/04/2020\",\n    \"status\": \"En cours\",\n    \"tags\": [\n      \"Travail\",\n      \"Web\",\n      \"Youpi\"\n    ]\n  }\n}"
                         }
                     },
                     "404": {
@@ -160,12 +160,15 @@
                 "responses": {
                     "200": {
                         "description": "La tâche a été mise à jour",
-                        "schema": {
-                            "$ref": "#/definitions/Todo"
+                        "examples": {
+                            "application/json": "{\n  \"success\": \"true\",\n  \"message\": \"La tâche a été mise à jour\",\n  \"todo\": {\n    \"_id\": 1,\n    \"title\": \"Projet modifié\",\n    \"dateBegin\": \"25/03/2020\",\n    \"dateEnd\": \"03/04/2020\",\n    \"status\": \"En cours\",\n    \"tags\": [\n      \"Travail\",\n      \"Web\",\n      \"Youpi\"\n    ]\n  }\n}"
                         }
                     },
                     "404": {
                         "description": "La tâche n'existe pas"
+                    },
+                    "500": {
+                        "description": "La tâche n'a pas été mise à jour"
                     }
                 }
             },
@@ -177,12 +180,15 @@
                 "responses": {
                     "200": {
                         "description": "La tâche a été supprimée",
-                        "schema": {
-                            "$ref": "#/definitions/Todo"
+                        "examples": {
+                            "application/json": "{\n  \"success\": \"true\",\n  \"message\": \"La tâche a été supprimée\"\n}"
                         }
                     },
                     "404": {
                         "description": "La tâche n'existe pas"
+                    },
+                    "500": {
+                        "description": "La tâche n'a pas été supprimée"
                     }
                 }
             }
@@ -195,9 +201,9 @@
                 "summary": "Récupérer touts les tags",
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/Tags"
+                        "description": "Tous les tag ont été récupérés",
+                        "examples": {
+                            "application/json": "{\n  \"success\": \"true\",\n  \"message\": \"Tous les tags ont été récupérés\",\n  \"tags\": [\n    {\n      \"_id\": 0,\n      \"title\": \"Travail\"\n    },\n    {\n      \"_id\": 1,\n      \"title\": \"Web\"\n    },\n    {\n      \"_id\": 2,\n      \"title\": \"Youpi\"\n    }\n  ]\n}"
                         }
                     }
                 }
@@ -221,9 +227,15 @@
                 "responses": {
                     "200": {
                         "description": "Nouveau tag crée",
-                        "schema": {
-                            "$ref": "#/definitions/Tag"
+                        "examples": {
+                            "application/json": "{\n  \"success\": \"true\",\n  \"message\": \"Nouveau tag crée\",\n  \"tag\": {\n    \"_id\": 1,\n    \"title\": \"Web\"\n  }\n}"
                         }
+                    },
+                    "400": {
+                        "description": "Un des paramètres requis n'a pas été renseigné"
+                    },
+                    "500": {
+                        "description": "Nouveau tag non crée"
                     }
                 }
             }
@@ -243,10 +255,13 @@
                 "summary": "Récupérer le tag en renseignant son ID",
                 "responses": {
                     "200": {
-                        "description": "Le tag est trouvé",
-                        "schema": {
-                            "$ref": "#/definitions/Tag"
+                        "description": "Le tag a été trouvé",
+                        "examples": {
+                            "application/json": "{\n  \"success\": \"true\",\n  \"message\": \"Le tag a été trouvé\",\n  \"tag\": {\n    \"_id\": 1,\n    \"title\": \"Web\"\n  }\n}"
                         }
+                    },
+                    "404": {
+                        "description": "Le tag n'existe pas"
                     }
                 }
             },
@@ -265,10 +280,16 @@
                 }],
                 "responses": {
                     "200": {
-                        "description": "Le tag est mise à jour",
-                        "schema": {
-                            "$ref": "#/definitions/Tag"
+                        "description": "Le tag a été mis à jour",
+                        "examples": {
+                            "application/json": "{\n  \"success\": \"true\",\n  \"message\": \"Le tag a été mis à jour\",\n  \"tag\": {\n    \"_id\": 1,\n    \"title\": \"Web modifié\"\n  }\n}"
                         }
+                    },
+                    "404": {
+                        "description": "Le tag n'existe pas"
+                    },
+                    "500": {
+                        "description": "Le tag n'a pas été mis à jour"
                     }
                 }
             },
@@ -279,10 +300,16 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Le tag est supprimé",
-                        "schema": {
-                            "$ref": "#/definitions/Tag"
+                        "description": "Le tag a été supprimé",
+                        "examples": {
+                            "application/json": "{\n  \"success\": \"true\",\n  \"message\": \"Le tag a été supprimé\"\n}"
                         }
+                    },
+                    "404": {
+                        "description": "Le tag n'existe pas"
+                    },
+                    "500": {
+                        "description": "Le tag n'a pas été supprimé"
                     }
                 }
             }
@@ -291,7 +318,6 @@
     "definitions": {
         "Todo": {
             "required": [
-                "_id",
                 "title",
                 "dateBegin",
                 "dateEnd",
@@ -299,10 +325,6 @@
                 "tags"
             ],
             "properties": {
-                "_id": {
-                    "type": "string",
-                    "uniqueItems": true
-                },
                 "title": {
                     "type": "string"
                 },
@@ -319,20 +341,17 @@
                 },
                 "tags": {
                     "type": "array",
-                    "$ref": "#/definitions/Tag"
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
         "Tag": {
             "required": [
-                "_id",
                 "title"
             ],
             "properties": {
-                "_id": {
-                    "type": "string",
-                    "uniqueItems": true
-                },
                 "title": {
                     "type": "string"
                 }
